@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Spam Classifier</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="static/img/favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,900%7CShare+Tech+Mono%7CSpace+Mono" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body>
+
+<section class="error">
+
+    <div class="error__content">
+
+        <!-- TITLE -->
+        <div class="error__message message">
+            <a href="/">
+                <p class="message__title" style="color:white">
+                    Spam Classifier
+                </p>
+            </a>
+        </div>
+
+        <!-- FORM -->
+        <div class="error__nav e-nav">
+
+            <form action="{{ url_for('predict') }}" 
+                  method="POST" 
+                  id="myform" 
+                  class="e-nav__form">
+
+                <textarea
+                    class="e-nav__search"
+                    name="message"
+                    id="submission"
+                    rows="10"
+                    placeholder="Enter message here..."
+                    required></textarea>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit"
+                        id="btnSubmit"
+                        class="e-nav__icon icon-search">
+                </button>
+
+            </form>
+
+            <!-- OUTPUT -->
+            {% if prediction == 1 %}
+                <style>
+                    body { background-color: maroon; }
+                </style>
+
+                <br><br><br><br>
+                <p class="message__title"
+                   style="font-size:20px;color:maroon">
+                   Spam Detected - Be Careful !
+                </p>
+
+            {% elif prediction == 0 %}
+                <style>
+                    body { background-color: #145A32; }
+                </style>
+
+                <br><br><br><br>
+                <p class="message__title"
+                   style="font-size:20px;color:#145A32">
+                   Not Spam :)
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ENTER KEY SUBMIT SCRIPT -->
+<script>
+document.getElementById("submission")
+.addEventListener("keydown", function(event) {
+
+    // Enter submits form
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        document.getElementById("myform").submit();
+    }
+});
+</script>
+
+</body>
+</html>

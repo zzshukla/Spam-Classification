@@ -1,9 +1,11 @@
+import os
 from flask import Flask, render_template, request
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
 
@@ -13,7 +15,7 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-	df = pd.read_csv("Dataset/spam.csv", encoding="latin-1")
+	df = pd.read_csv(os.path.join(BASE_DIR, "Dataset", "spam.csv"), encoding="latin-1")
 	df.drop(['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], axis=1, inplace=True)
 	
 	# Features and Labels
